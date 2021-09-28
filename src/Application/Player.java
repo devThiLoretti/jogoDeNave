@@ -10,7 +10,7 @@ public class Player extends Rectangle{
 	public int spd = 4;
 	public boolean right, up, down, left;
 	
-	public int curAnimation = 0;
+	public static int curAnimation = 0;
 	public int curFrames = 0, targetFrames = 15;
 	public static List<Bullet> bullets = new ArrayList<>();
 	public boolean shoot = false;
@@ -22,25 +22,27 @@ public class Player extends Rectangle{
 	
 	public void tick() {
 		boolean moved = false;
-		if(right && World.isFree(x+spd, y)) {
+		if(right) {
 			x += spd;
 			moved = true;
 			dir = 1;
 		}
-		else if(left && World.isFree(x-spd, y)) {
+		else if(left ) {
 			x -= spd;
 			moved = true;
 			dir = -1;
 		}
 		
-		if(up && World.isFree(x, y-spd)) {
+		if(up ) {
 			y -= spd;
 			moved = true;
+			dir = 1;
 			
 		}
-		else if(down && World.isFree(x, y + spd)) {
+		else if(down ) {
 			y += spd;
 			moved = true;
+			
 			
 		}
 		
@@ -57,7 +59,7 @@ public class Player extends Rectangle{
 		
 		if(shoot) {
 			shoot = false;
-			bullets.add(new Bullet(x, y, dir));
+			bullets.add(new Bullet(x, y, 1));
 		}
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).tick();
@@ -69,7 +71,7 @@ public class Player extends Rectangle{
 	public void render(Graphics g) {
 		//g.setColor(Color.BLUE);
 		//g.fillRect(x, y, width, height);
-		g.drawImage(Spritesheet.player_front[curAnimation], x, y, 32, 32, null);
+		g.drawImage(Spritesheet.player_front[curAnimation], x, y, 60, 60, null);
 		
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).render(g);;
